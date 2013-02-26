@@ -21,7 +21,7 @@ function getList(gameId, options, cb) {
   options = options || {};
   var query = GameEntry.find({ gameId: gameId }, null, {})
     .lean()
-    .sort({ score: options.order || 1 })
+    .sort({ score: options.order || -1 })
     .limit(options.limit || 10);
   if (options.scope) {
     query.where('scope', options.scope );
@@ -40,7 +40,7 @@ app.use(express.methodOverride());
 
 app.get('/:gameId', function(req, res) {
   var options = {
-    order: req.query.reverse ? 1 : -1,
+    order: req.query.reverse ? -1 : 1,
     limit: req.query.limit || 10,
     scope: req.query.scope || null
   };
