@@ -45,16 +45,19 @@ app.get('/:gameId', function(req, res) {
     scope: req.query.scope || null
   };
   getList(req.params.gameId, options, function(err, items) {
+    res.type('application/json');
     if (err) {
-      res.send(400, { error: err.message });
+      res.jsonp(400, { error: err.message });
     } else {
-      res.send({ items: items });
+      res.jsonp({ items: items });
     }
   });
 });
 
 app.post('/:gameId', function(req, res) {
   addToList(req.params.gameId, req.body, function(err) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.type('application/json');
     if (err) {
       res.send(500, { error: err.message || 'Undefined error' });
     } else {
@@ -63,5 +66,5 @@ app.post('/:gameId', function(req, res) {
   });
 });
 
-app.listen(8124);
-console.log("Started server at 172.0.0.1:8124");
+app.listen(8181);
+console.log("Started server at 172.0.0.1:8181");
